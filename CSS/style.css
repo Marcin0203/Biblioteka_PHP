@@ -1,0 +1,348 @@
+/*Ustawienie znacznika html i body*/
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+/*Ustawienie body*/
+body{
+    background-image: url("../images/background.jpeg");
+    background-size: cover;
+    background-attachment: scroll; 
+}
+
+/*Ustawienie ol, li i ul w menu*/
+ol > li > ul{
+    list-style-type:none;
+}
+
+ol > li {
+    float:left;
+    width:15%;
+}
+
+ol > li > ul {
+    display:none;
+}
+
+ol > li > ul > li {
+    padding-top: 8%;
+    text-align: left;
+    font-size: 80%;
+}
+
+ol > li:hover > ul {
+    display:block;
+}
+
+
+ol {
+    list-style-type:none;
+    padding:0;
+    margin:0;
+    text-align:center;
+}
+
+/*Ustawienie diva z menu*/
+#menu3, #menu2, #menu1, #menu_index{
+    height: 15%;
+    float: top;
+    margin-top: 2%;
+}
+
+#menu3{
+    margin-left: 10%;
+    width: 88%;
+}
+
+#menu2{
+    margin-left: 12%;
+    width: 86%;
+}
+
+#menu1{
+    margin-left: 25%;
+    width: 72%;
+}
+
+#menu_index{
+    margin-left: 35%;
+    width: 62%;
+}
+
+/*Ustawienie przycisku pokaż książki w katalogu książek oraz pokaż statystyki w zakładce statystyki*/
+.button_pokaz_ksiazki, .button_pokaz_statystyki{
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    border-radius: 6px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 70%;
+    padding: 3% 6% 3% 6%;
+    text-decoration: none;
+    opacity: 0.8;    
+}
+
+/*Ustawienie przycisku pokaż książki w katalogu książek podczas najechania myszką*/
+.button_pokaz_ksiazki:hover , .button_pokaz_statystyki:hover{
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+/*Ustawienie przycisku w menu*/
+.button_menu1, .button_menu2, .button_menu_index {
+    background: #a8b6bf;
+    background-image: -webkit-linear-gradient(top, #a8b6bf, #646c75);
+    background-image: -moz-linear-gradient(top, #a8b6bf, #646c75);
+    background-image: -ms-linear-gradient(top, #a8b6bf, #646c75);
+    background-image: -o-linear-gradient(top, #a8b6bf, #646c75);
+    background-image: linear-gradient(to bottom, #a8b6bf, #646c75);
+    border-radius: 24px;
+    font-family: Arial;
+    color: #00ffff;
+    text-decoration: none;
+    opacity: 0.7;
+}
+
+.button_menu2{
+    font-size: 150%;
+    padding: 5% 10% 5% 10%;
+}
+
+.button_menu1{
+    font-size: 150%;
+    padding: 1% 2% 1% 2%;
+}
+
+.button_menu_index{
+    font-size: 150%;
+    padding: 1% 2% 1% 2%;
+}
+
+/*Ustawienie przycisku menu podczas najechania myszką*/
+.button_menu1:hover, .button_menu2:hover, .button_menu_index:hover {
+  background: #272829;
+  background-image: -webkit-linear-gradient(top, #272829, #666c70);
+  background-image: -moz-linear-gradient(top, #272829, #666c70);
+  background-image: -ms-linear-gradient(top, #272829, #666c70);
+  background-image: -o-linear-gradient(top, #272829, #666c70);
+  background-image: linear-gradient(to bottom, #272829, #666c70);
+  text-decoration: none;
+}
+
+/*Ustawienia stopki*/
+#stopka{
+    height: 2%;
+    clear:both;
+    width:100%;
+    padding:5px 0 5px 0;
+    text-align:center;
+    background: #000000;
+    opacity: 0.2;
+    color: #ffffff;
+    font-family: cursive;
+}
+
+/*Ustawienie diva z nagłówkiem na każdej stronie*/
+#naglowek_div{
+    width: 100%;
+    height: 5%;
+    text-align: center;
+}
+
+/*Ustawienie koloru czcionki treści na stronie */
+#naglowek_tresc, .tresc_span, .formularz_td_text, .formularz_td_input, .statystyki_table{
+    color: #00ffff;
+}
+
+/*Ustawienie treści na stronie katalog książek*/
+#tresc_katalog, .tresc_span{
+    font-size: 150%;
+}
+
+/*Ustawienie diva z całą treścią pod nagłówkiem na każdej stronie*/
+#tresc_div{
+    padding-top: 2%;
+    text-align: center;
+    width: 100%;
+}
+
+/*Ustawienie diva zawieracjącego formularz logowania i rejestracji*/
+#formularz_div{
+    text-align: center;
+    width: 50%;
+    padding-left: 30%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+/*Ustawienie diva na stonie moje konto z przyciskami*/
+#moje_konto_div{
+    text-align: center;
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+
+/*Ustawienie pierwszej kolumny z tekstem tabeli w formularzu logowania i rejestracji*/
+.formularz_td_text{
+    text-align: right;
+    width: 10%;
+    padding-top: 2%;   
+}
+
+/*Ustawienie pól w tabeli z książkami w katalogu książek*/
+.ksiazki_td, .ksiazki_td_naglowek, .statystyki_td, .statystyki_td_naglowek{
+    text-align: center;
+    width: 10%;
+    padding-top: 2%;
+    border-style: double;
+    border-color:#999999;
+    color: #33ff00;
+}
+
+/*Ustawienie wiersza nagłowkowego w tabeli z ksiazkami w katalogu ksiazek*/
+.ksiazki_td_naglowek, .statystyki_td_naglowek{
+    font-size: 120%;
+    font-weight: bold;
+}
+
+
+/*Ustawienie drugiej kolumny z inputami tabeli w formularzu logowania i rejestracji*/
+.formularz_td_input{
+    text-align: left;
+    width: 12%;
+    padding-top: 2%;   
+}
+
+/*Ustawienie pól z przyciskami tabeli oraz zmiennymi sesyjnymi komunikującę o błędach*/
+.formularz_td_button .formularz_td_error{
+    text-align: center;
+    width: 20%;
+    padding-top: 2%;
+}
+
+/*Ustawienie pól do wprowadzania danych w formularzu logowania i rejestracji*/
+.formularz_inputText{
+    width: 100%;
+    
+}
+
+/*Ustawienie tabeli*/
+.ksiazki_table, .zarezerwowane_table, .wypozyczone_table, .do_wypozyczenia_table, .wypozyczone_table_pracownik, .statystyki_biblioteka_table{
+    width: 80%;
+}
+
+.formularz_table{
+    width: 60%;
+}
+
+.statystyki_table{
+    width: 40%;
+    text-align: center;
+    font-size: 120%;
+}
+
+/*Ustawienie diva z tabelą w zakładce statystyki*/
+#statystyki_div{
+    margin-top: 3%;
+    margin-left: 35%;
+    width: 63%;
+}
+
+/*Ustawienie tabeli z książkami w katalogu książek*/
+.ksiazki_table, .zarezerwowane_table, .wypozyczone_table, .do_wypozyczenia_table, .wypozyczone_table_pracownik{
+    border-style: double;
+}
+
+/*Ustawienie tekstu w zmiennych sesyjnych z informacją o błędzie*/
+.error{
+    color: #ff3333;
+}
+
+/*Ustawienie tekstu w zmiennych sesyjnych z informacją o pozytywnym przebiegu*/
+.good{
+    color: #33ff33;
+}
+
+/*Wyśrodkowanie teksu Dane wymagane w formularzu rejestracji*/
+#formularz_dane_wymagane{
+    text-align: center;
+}
+
+/*Przycik w formularzu rejestracyjnym Zarejestruj oraz przyciski odpowiadajace za akcje wybierz*/
+.formularz_button_zarejestruj, .button_wybierz{
+  background: #15e618;
+  background-image: -webkit-linear-gradient(top, #15e618, #4f9932);
+  background-image: -moz-linear-gradient(top, #15e618, #4f9932);
+  background-image: -ms-linear-gradient(top, #15e618, #4f9932);
+  background-image: -o-linear-gradient(top, #15e618, #4f9932);
+  background-image: linear-gradient(to bottom, #15e618, #4f9932);
+  border-radius: 34px;
+  font-family: Arial;
+  font-size: 80%;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/*Przycik w formularzu rejestracyjnym Zarejestruj*/
+.formularz_button_zarejestruj{
+    padding: 3% 6% 3% 6%;
+}
+/*przyciski odpowiadajace za akcje typu wybierz*/
+.button_wybierz{
+    padding: 1% 2% 1% 2%;  
+}
+
+/*Przycik w formularzu rejestracyjnym Zarejestruj po najechaniu myszką*/
+.formularz_button_zarejestruj:hover, .button_wybierz:hover {
+  background: #31b816;
+  background-image: -webkit-linear-gradient(top, #31b816, #1be022);
+  background-image: -moz-linear-gradient(top, #31b816, #1be022);
+  background-image: -ms-linear-gradient(top, #31b816, #1be022);
+  background-image: -o-linear-gradient(top, #31b816, #1be022);
+  background-image: linear-gradient(to bottom, #31b816, #1be022);
+  text-decoration: none;
+}
+
+
+
+/*Przycik w formularzu rejestracyjnym Powrót*/
+.formularz_button_back{
+  background: #ff0000;
+  background-image: -webkit-linear-gradient(top, #ff0000, #ba1c1c);
+  background-image: -moz-linear-gradient(top, #ff0000, #ba1c1c);
+  background-image: -ms-linear-gradient(top, #ff0000, #ba1c1c);
+  background-image: -o-linear-gradient(top, #ff0000, #ba1c1c);
+  background-image: linear-gradient(to bottom, #ff0000, #ba1c1c);
+  border-radius: 34px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 80%;
+  padding: 3% 10% 3% 10%;
+  text-decoration: none;
+}
+
+/*Przycik w formularzu rejestracyjnym Powrót po najechaniu myszką*/
+.formularz_button_back:hover {
+  background: #b81616;
+  background-image: -webkit-linear-gradient(top, #b81616, #ed0e0e);
+  background-image: -moz-linear-gradient(top, #b81616, #ed0e0e);
+  background-image: -ms-linear-gradient(top, #b81616, #ed0e0e);
+  background-image: -o-linear-gradient(top, #b81616, #ed0e0e);
+  background-image: linear-gradient(to bottom, #b81616, #ed0e0e);
+  text-decoration: none;
+}
+    
+
