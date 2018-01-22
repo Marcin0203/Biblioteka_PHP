@@ -137,7 +137,7 @@ function printBook($id){
         
     $query = "SELECT ksiazki.ID, autorzy.imie, autorzy.nazwisko, ksiazki.tytul
                 FROM ksiazki INNER JOIN autorzy ON ksiazki.ID_autorzy=autorzy.ID
-                WHERE ksiazki.ID_autorzy=".$id;
+                WHERE ksiazki.ID_autorzy='".$id."' AND ksiazki.wypozyczona='0'";
     if ($rezultat = $connect->query($query)){
         //Poprawne zapytanie do bazy
         $tresc .="<div id='formularz_div'><form><table class='";

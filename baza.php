@@ -1,15 +1,14 @@
 <?php
 
-// Klasa obslugująca połączenie z bazą
-
-if(!(isset($_SESSION['baza']))){
-    header('Location: index.php');
-    exit();
+if(!(isset($_SESSION['baza']))){                                //Sprawdzenie czy NIE istnieje zmienna sesyjna baza
+    header('Location: index.php');                              //Jeśli nie istnieje przenieś na index.php
+    exit();                                                     //exit
 }
 else{
-    unset($_SESSION['baza']);
+    unset($_SESSION['baza']);                                   //Jeśli istnieje usuń zmienną sesyjną
 }
 
+// Klasa obslugująca połączenie z bazą
 class baza {
     
     private $host = "localhost";

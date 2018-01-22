@@ -1,17 +1,17 @@
 <?php
 
-//Klasa reprezentujaca użytkowników podczas rejestracji
-$_SESSION['baza'] = "";
-require_once 'baza.php';
+$_SESSION['baza'] = "";                         //Utworzenie zmiennej sesyjnej dającej dostep do klasy baza.php 
+require_once 'baza.php';                        //Dołączenie klasy baza.php
 
-if(!(isset($_SESSION['userRejestracja']))){
-    header('Location: index.php');
-    exit();
+if(!(isset($_SESSION['userRejestracja']))){     //Sprawdzenie czy NIE istnieje zmienna sesyjna userRejestracja
+    header('Location: index.php');              //Jeśli nie istnieje przenieś na index.php
+    exit();                                     //exit
 }
 else{
-    unset($_SESSION['userRejestracja']);
+    unset($_SESSION['userRejestracja']);        //Jeśli istnieje usuń zmienną sesyjną
 }
 
+//Klasa reprezentujaca użytkowników podczas rejestracji
 class userRejestracja {
 
     private $login;

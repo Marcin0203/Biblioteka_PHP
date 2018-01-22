@@ -1,95 +1,26 @@
 <?php
-    session_start();
+     if(!isset($_SESSION)){                          //Sprawdzenie czy sesja nie istnieje
+        session_start();                            //Jeśli nie istenieje Start sesji
+    }
     
-    $_SESSION['statystyki_process'] = "";
-    require_once 'statystyki_process.php';
-    $_SESSION['userLogin'] = "";
+    $_SESSION['userLogin'] = "";                    //utworzenie zmiennej sesyjne dajacej dostep do dołączenia pliku userLogin.php
+    require_once 'userLogin.php';                   //Dołączenie klasy reprezentującej użytkownika podczas logowania
     
-    require_once 'userLogin.php';
+    $_SESSION['statystyki_process'] = "";           //utworzenie zmiennej sesyjne dajacej dostep do dołączenia pliku statystyki_process.php
+    require_once 'statystyki_process.php';          //Dołączenie pliku statystyki_process.php
     
-    $user = new userLogin();
-    if(!($user->getLoggedInUser(session_id()) == 1)){
-        header('Location: index.php');
+     $user = new userLogin();                        //Utworzenie nowego obiektu klasy userLogin.php
+    if($user->getLoggedInUser(session_id()) == -1){ //Sprawdzenie czy ID sesji znajduje sie w tabeli logged_users
+        header('Location: index.php');              //Jeśli nie przejdź na index.php
+        exit();                                     //exit
     }
     else{
-        if($_SESSION['typ_konta'] == 1 || $_SESSION['typ_konta'] == 2){
-            header('Location: index.php');
+        if($_SESSION['typ_konta'] == 1 || $_SESSION['typ_konta'] == 2){//Jeśli id sesji znajduje się w tabeli logged_users sprawdzenie czy typ konta = czytelnik Lub pracownik
+            header('Location: index.php');          //Jeśli tak przejdź na index.php
+            exit();                                 //exit
+        }
+        else{
+            printTresc();                          //Jeśli nie drukuj treść strony
         }
     }
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="CSS/style.css" type="text/css" />
-        <script src="js/whcookies.js"></script>
-        <title>Biblioteka - Strona Główna</title>
-    </head>
-    <body>
-        <div id="naglowek_div">
-            <h1>
-                <span id="naglowek_tresc">Witaj na swoim koncie!</span>
-            </h1>     
-        </div>
-        <div id='menu3'>
-            <ol>
-                <li><a class='button_menu2' href='user_page.php'>Strona Główna</a></li>
-                <li><a class='button_menu2' href='katalog_ksiazek.php'>Katalog książek</a></li>
-                <li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a>
-                    <ul>
-                        <li><a class='button_menu2' href='moje_ksiazki.php'>Moje książki</a></li>
-                        <li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a></li>
-                    </ul>
-                </li>
-                <li><a class='button_menu2' href='wypozycz_page.php'>Opcje pracownika</a>
-                    <ul>
-                        <li><a class='button_menu2' href='wypozycz_page.php'>Wypożycz/Oddaj</a></li>
-                        <li><a class='button_menu2' href='dodaj_ksiazke_page.php'>Dodaj książkę</a></li>
-                    </ul>
-                </li>
-                <li><a class='button_menu2' href='statystyki_page.php'>Opcje Właściciela</a>
-                    <ul>
-                        <li><a class='button_menu2' href='rejestracja.php'>Dodaj użytkownika</a></li>
-                        <li><a class='button_menu2' href='statystyki_page.php'>Statystyki</a></li>
-                    </ul>
-                </li>
-                <li><a class='button_menu2' href='wyloguj.php'>Wyloguj</a></li>
-            </ol>
-        </div>
-         <div id="tresc_div">
-            <span class="tresc_span" id="tresc_katalog">
-                Tutaj możesz przeglądać statystyki Twojej biblioteki!
-            </span>
-            <?php
-                if(!isset($_SESSION['biblioteka']) && !isset($_SESSION['czytelnik']) && !isset($_SESSION['pracownik']) && 
-                   !isset($_SESSION['statystyki_czytelnik']) && !isset($_SESSION['statystyki_pracownik'])){
-                    printTresc();
-                }
-                if(isset($_SESSION['biblioteka'])){
-                    printStatystyki("biblioteka");
-                    unset($_SESSION['biblioteka']);
-                }
-                if(isset($_SESSION['czytelnik'])){
-                    printOptions("czytelnik");
-                    unset($_SESSION['czytelnik']);
-                }
-                if(isset($_SESSION['pracownik'])){
-                    printOptions("pracownik");
-                    unset($_SESSION['pracownik']);
-                }
-                if(isset($_SESSION['statystyki_czytelnik'])){
-                    printStatystyki("czytelnik");
-                    unset($_SESSION['statystyki_czytelnik']);
-                }
-                if(isset($_SESSION['statystyki_pracownik'])){
-                    printStatystyki("pracownik");
-                    unset($_SESSION['statystyki_pracownik']);
-                }
-            ?>
-        </div>
-        <div id="stopka"> &copy; 2017 Marcin Małocha</div>
-    </body>
-</html>
-                            
-                
+               

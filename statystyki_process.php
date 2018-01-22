@@ -1,43 +1,46 @@
 <?php
-$_SESSION['baza'] = "";
-require_once 'baza.php';
+//Plik obsługujący stronę statystyki_page
 
-if(!(isset($_SESSION['statystyki_process']))){
-    header('Location: index.php');
-    exit();
+if(!(isset($_SESSION['statystyki_process']))){                                  //Sprawdzenie czy NIE istnieje zmienna sesyjna statystyki_process
+    header('Location: index.php');                                              //Jeśli nie istnieje przenieś na index.php
+    exit();                                                                     //exit
 }
 else{
-    unset($_SESSION['statystyki_process']);
+    unset($_SESSION['statystyki_process']);                                     //Jeśli istnieje usuń zmienną sesyjną
 }
 
-//Obsługa pierwszego przycisku wybierz w formularzy z trzema radio buttonami 
-if (isset($_REQUEST['menu_button'])){
-    checkRadio();
+$_SESSION['baza'] = "";                                                         //utworzenie zmiennej sesyjne dajacej dostep do dołączenia pliku baza.php
+require_once 'baza.php';                                                        //Dołączenie klasy obsługującej połączenie z bazą
+ 
+if (isset($_REQUEST['menu_button'])){                                           //Obsługa pierwszego przycisku wybierz w formularzy z trzema radio buttonami
+    checkRadio();                                                               //Wywolanie funkcji checkRadio
 }
 
-//Obsługa przycisku pokaż statystyki dla czytelnika
-if (isset($_REQUEST['pokaz_czytelnik'])){
-    $_SESSION['statystyki_czytelnik'] = getLogin($_REQUEST['select_czytelnik']);
+if (isset($_REQUEST['pokaz_czytelnik'])){                                       //Obsługa przycisku pokaż statystyki dla czytelnika
+    $_SESSION['statystyki_czytelnik'] = getLogin($_REQUEST['select_czytelnik']);//Utworzenie zmiennej sesyjnej ktorej przypisujemy wynik dzialania funkcji getLogin. 
+                                                                                //Zmienna ta pozwala wydrukowac tresc strony ze statystykami wybranego czytelnika
 }
 
-//Obsługa przycisku pokaż statystyki dla pracownika
-if (isset($_REQUEST['pokaz_pracownik'])){
-    $_SESSION['statystyki_pracownik'] = getLogin($_REQUEST['select_pracownik']);
+if (isset($_REQUEST['pokaz_pracownik'])){                                       //Obsługa przycisku pokaż statystyki dla pracownika
+    $_SESSION['statystyki_pracownik'] = getLogin($_REQUEST['select_pracownik']);//Utworzenie zmiennej sesyjnej ktorej przypisujemy wynik dzialania funkcji getLogin. 
+                                                                                //Zmienna ta pozwala wydrukowac tresc strony ze statystykami wybranego pracownika
 }
 
-//Obsługa przycisku powrot
-if (isset($_REQUEST['back'])){
-    if(isset($_SESSION['biblioteka'])){
-        unset($_SESSION['biblioteka']);
+if (isset($_REQUEST['back'])){                                                  //Obsługa przycisku powrot
+    if(isset($_SESSION['biblioteka'])){                                         //Sprawdzenie czy istnieje zmienna sesyjna biblioteka
+        unset($_SESSION['biblioteka']);                                         //Jeśli istnieje zwolnij ją
     }
-    if(isset($_SESSION['czytelnik'])){
-        unset($_SESSION['czytelnik']);
+    if(isset($_SESSION['czytelnik'])){                                          //Sprawdzenie czy istnieje zmienna sesyjna czytelnik
+        unset($_SESSION['czytelnik']);                                          //Jeśli istnieje zwolnij ją
     }
-    if(isset($_SESSION['pracownik'])){
-        unset($_SESSION['pracownik']);
+    if(isset($_SESSION['pracownik'])){                                          //Sprawdzenie czy istnieje zmienna sesyjna pracownik
+        unset($_SESSION['pracownik']);                                          //Jeśli istnieje zwolnij ją
     }
-    if(isset($_SESSION['statystyki_czytelnik'])){
-        unset($_SESSION['statystyki_czytelnik']);
+    if(isset($_SESSION['statystyki_czytelnik'])){                               //Sprawdzenie czy istnieje zmienna sesyjna statystyki_czytelnik
+        unset($_SESSION['statystyki_czytelnik']);                               //Jeśli istnieje zwolnij ją
+    }
+    if(isset($_SESSION['statystyki_pracownik'])){                               //Sprawdzenie czy istnieje zmienna sesyjna statystyki_pracownik
+        unset($_SESSION['statystyki_pracownik']);                               //Jeśli istnieje zwolnij ją
     }
 }
 
@@ -59,14 +62,45 @@ function getLogin($id){
 //Funkcja wypisująca treść strony statystyki
 function printTresc(){
     $tresc = "";
-    $tresc .= "<div id='statystyki_div'>";
-    $tresc .= "<form method='post'>";
-    $tresc .= "<table class='statystyki_table'><tr><td>Wybierz jakie statystyki chcesz wyświetlić:</td>";
-    $tresc .= "<tr><td> <input type='radio' name='menu' value='biblioteka'>Biblioteki</td></tr>";
-    $tresc .= "<tr><td> <input type='radio' name='menu' value='czytelnik'>Czytelników</td></tr>";
-    $tresc .= "<tr><td> <input type='radio' name='menu' value='pracownik'>Pracowników</td></tr>";
-    $tresc .= "<tr><td > <button class='button_wybierz' name='menu_button'>Wybierz</button></td></tr>";
-    $tresc .= "</table></form></div>";
+    $tresc .= "<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+            . "<link rel='stylesheet' href='CSS/style.css' type='text/css' /><script src='js/whcookies.js'></script><title>Biblioteka - Statystyki</title>"
+            . "</head><body><div id='naglowek_div'><h1><span id='naglowek_tresc'>Statystyki!</span></h1></div><div id='menu3'><ol>"
+            . "<li><a class='button_menu2' href='user_page.php'>Strona Główna</a></li><li><a class='button_menu2' href='katalog_ksiazek.php'>Katalog książek</a></li>"
+            . "<li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a><ul><li><a class='button_menu2' href='moje_ksiazki.php'>Moje książki</a></li>"
+            . "<li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a></li></ul></li><li><a class='button_menu2' href='wypozycz_page.php'>Opcje pracownika</a>"
+            . "<ul><li><a class='button_menu2' href='wypozycz_page.php'>Wypożycz/Oddaj</a></li><li><a class='button_menu2' href='dodaj_ksiazke_page.php'>Dodaj książkę</a></li>"
+            . "</ul></li><li><a class='button_menu2' href='statystyki_page.php'>Opcje Właściciela</a><ul><li><a class='button_menu2' href='rejestracja.php'>Dodaj użytkownika</a></li>"
+            . "<li><a class='button_menu2' href='statystyki_page.php'>Statystyki</a></li></ul></li><li><a class='button_menu2' href='wyloguj.php'>Wyloguj</a></li>"
+            . "</ol></div><div id='tresc_div'><span class='tresc_span' id='tresc_katalog'>Tutaj możesz przeglądać statystyki Twojej biblioteki!</span>";
+    if(!isset($_SESSION['biblioteka']) && !isset($_SESSION['czytelnik']) && !isset($_SESSION['pracownik']) && 
+                   !isset($_SESSION['statystyki_czytelnik']) && !isset($_SESSION['statystyki_pracownik'])){
+        $tresc .= "<div id='statystyki_div'><form method='post'><table class='statystyki_table'><tr><td>Wybierz jakie statystyki chcesz wyświetlić:</td>"
+                . "<tr><td> <input type='radio' name='menu' value='biblioteka'>Biblioteki</td></tr>"
+                . "<tr><td> <input type='radio' name='menu' value='czytelnik'>Czytelnika</td></tr>"
+                . "<tr><td> <input type='radio' name='menu' value='pracownik'>Pracownika</td></tr>"
+                . "<tr><td > <button class='button_wybierz' name='menu_button'>Wybierz</button></td></tr></table></form></div>";
+    }
+    if(isset($_SESSION['biblioteka'])){
+        $tresc .= printStatystyki("biblioteka");
+        unset($_SESSION['biblioteka']);
+    }
+    if(isset($_SESSION['czytelnik'])){
+        $tresc .= printOptions("czytelnik");
+        unset($_SESSION['czytelnik']);
+    }
+    if(isset($_SESSION['pracownik'])){
+        $tresc .= printOptions("pracownik");
+        unset($_SESSION['pracownik']);
+    }
+    if(isset($_SESSION['statystyki_czytelnik'])){
+        $tresc .= printStatystyki("czytelnik");
+        unset($_SESSION['statystyki_czytelnik']);
+    }
+    if(isset($_SESSION['statystyki_pracownik'])){
+        $tresc .= printStatystyki("pracownik");
+        unset($_SESSION['statystyki_pracownik']);
+    }
+    $tresc .= "</div><div id='stopka'> &copy; 2017 Marcin Małocha</div></body></html>";
     echo $tresc;
 }
 
@@ -87,7 +121,7 @@ function checkRadio(){
     }
 }
 
-//Funkcja wypisująca tresc strony ze statystykami biblioteki
+//Funkcja wypisująca statystyki
 function printStatystyki($opcja){
     switch ($opcja){
         case "biblioteka":
@@ -111,8 +145,7 @@ function printStatystyki($opcja){
             $tresc .= "<td class='statystyki_td'>". select(query("iloscWypozyczen"))."</td></tr>";
             $tresc .= "<tr><td></td><td class='formularz_td_button'><button class='formularz_button_back' name='back'>Powrót</button></td></tr>";
             $tresc .= "</table></form></div>";    
-            echo $tresc;
-            break;
+            return $tresc;
         case "czytelnik":
             $tresc = "<div id='formularz_div'><form method='post'><table class='statystyki_biblioteka_table'>";
             $tresc .= "<tr><td colspan='2' class='statystyki_td_naglowek'>Statystyki czytelnika ".$_SESSION['statystyki_czytelnik'].":</td></tr>";
@@ -132,8 +165,7 @@ function printStatystyki($opcja){
             $tresc .= "<td class='statystyki_td'>". select(query("czytelnikZarezerwowane"))."</td></tr>";
             $tresc .= "<tr><td></td><td class='formularz_td_button'><button class='formularz_button_back' name='back'>Powrót</button></td></tr>";
             $tresc .= "</table></form></div>";
-            echo $tresc;
-            break;
+            return $tresc;
         case "pracownik":
             $tresc = "<div id='formularz_div'><form method='post'><table class='statystyki_biblioteka_table'>";
             $tresc .= "<tr><td colspan='2' class='statystyki_td_naglowek'>Statystyki pracownika ".$_SESSION['statystyki_pracownik'].":</td></tr>";
@@ -145,8 +177,7 @@ function printStatystyki($opcja){
             $tresc .= "<td class='statystyki_td'>". select(query("pracownikAnulowane"))."</td></tr>";
             $tresc .= "<tr><td></td><td class='formularz_td_button'><button class='formularz_button_back' name='back'>Powrót</button></td></tr>";
             $tresc .= "</table></form></div>";
-            echo $tresc;
-            break;
+            return $tresc;
     }
     
 }
@@ -289,6 +320,6 @@ function printOptions($opcja){
     $tresc .= "<tr><td></td><td class='formularz_td_button'><button class='formularz_button_back' name='back'>Powrót</button></td></tr>";
     $baza->disconnectDatabase($connect);
     $tresc .= "</table></form></div>";
-    echo $tresc;
+    return $tresc;
 }
 

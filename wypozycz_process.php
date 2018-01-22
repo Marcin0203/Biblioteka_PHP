@@ -1,45 +1,135 @@
 <?php
+//Plik obsługujący stronę wypozycz_page
 
-if(!(isset($_SESSION['wypozycz_process']))){
-    header('Location: index.php');
-    exit();
+if(!(isset($_SESSION['wypozycz_process']))){                            //Sprawdzenie czy NIE istnieje zmienna sesyjna wypozycz_process
+    header('Location: index.php');                                      //Jeśli nie istnieje przenieś na index.php
+    exit();                                                             //exit
 }
 else{
-    unset($_SESSION['wypozycz_process']);
+    unset($_SESSION['wypozycz_process']);                               //Jeśli istnieje usuń zmienną sesyjną
 }
 
-//Obsługa przycisku wypożycz
-if (isset($_REQUEST['wypozycz'])){
-    if (wypozycz(htmlspecialchars(trim($_REQUEST['wypozycz'])))){
-        $_SESSION['pracownik_wypozyczono'] = "";
-        header('Location: wypozycz_page.php');
+$_SESSION['baza'] = "";                                                 //utworzenie zmiennej sesyjne dajacej dostep do dołączenia pliku baza.php
+require_once 'baza.php';                                                //Dołączenie klasy obsługującej połączenie z bazą
+
+if (isset($_REQUEST['wypozycz'])){                                      //Obsługa przycisku wypożycz
+    if (wypozycz(htmlspecialchars(trim($_REQUEST['wypozycz'])))){       //Wywolanie funkcji wypozycz z paremetrem ID_rezerwacji
+        $_SESSION['pracownik_wypozyczono'] = "";                        //Jeśli funkcja wypozycz zwroci TRUE utworz zmienna sesyjna informujaca o wypozyczeniu ksiazki
+        header('Location: wypozycz_page.php');                          //Powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    }
+    else{
+        header('Location: wypozycz_page.php');                          //Jeśli funkcja wypozycz zwroci FALSE, powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    }
+}
+
+if (isset($_REQUEST['anuluj_minelo'])){                                 //Obsługa przycisku anuluj rezerwację, gdy rezerwacja minęła
+    if (anuluj(htmlspecialchars(trim($_REQUEST['anuluj_minelo'])),"Rezerwacja minęła")){    //Wywolanie funkcji anuluj z parametrem ID_rezerwacji oraz z trescia uwag
+        $_SESSION['pracownik_anulowano'] = "";                          //Jeśli funkcja anuluj zwroci TRUE utworz zmienna sesyjna informujaca o anulowaniu rezerwacji
+        header('Location: wypozycz_page.php');                          //Powrot na strone wypozycz_page.php
+        exit();                                                         //exit
     }  
+    else{
+        header('Location: wypozycz_page.php');                          //Jeśli funkcja anuluj zwroci FALSE, powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    }
 }
 
-//Obsługa przycisku anuluj rezerwację gdy rezerwacja minęła
-if (isset($_REQUEST['anuluj_minelo'])){
-    if (anuluj(htmlspecialchars(trim($_REQUEST['anuluj_minelo'])),"Rezerwacja minęła")){
-        $_SESSION['pracownik_anulowano'] = "";
-        header('Location: wypozycz_page.php');
-    }  
+if (isset($_REQUEST['anuluj'])){                                        //Obsługa przycisku anuluj rezerwację, gdy rezerwacja NIE minęła
+    if (anuluj(htmlspecialchars(trim($_REQUEST['anuluj'])),"Pracownik anulował")){  //Wywolanie funkcji anuluj z parametrem ID_rezerwacji oraz z trescia uwag
+        $_SESSION['pracownik_anulowano'] = "";                          //Jeśli funkcja anuluj zwroci TRUE utworz zmienna sesyjna informujaca o anulowaniu rezerwacji
+        header('Location: wypozycz_page.php');                          //Powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    } 
+    else{
+        header('Location: wypozycz_page.php');                          //Jeśli funkcja anuluj zwroci FALSE, powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    }
 }
 
-//Obsługa przycisku anuluj rezerwację
-if (isset($_REQUEST['anuluj'])){
-    if (anuluj(htmlspecialchars(trim($_REQUEST['anuluj'])),"Pracownik anulował")){
-        $_SESSION['pracownik_anulowano'] = "";
-        header('Location: wypozycz_page.php');
-    }  
+if (isset($_REQUEST['oddaj'])){                                         //Obsługa przycisku oddaj
+    if (oddaj(htmlspecialchars(trim($_REQUEST['oddaj'])))){             //Wywolanie funkcji oddaj z parametrem ID_wypozyczenia
+        $_SESSION['pracownik_oddano'] = "";                             //Jeśli funkcja oddaj zwroci TRUE utworz zmienna sesyjna informujaca o oddaniu ksiazki
+        header('Location: wypozycz_page.php');                          //Powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    } 
+    else{
+        header('Location: wypozycz_page.php');                          //Jeśli funkcja oddaj zwroci FALSE, powrot na strone wypozycz_page.php
+        exit();                                                         //exit
+    }
 }
 
-//Obsługa przycisku oddaj
-if (isset($_REQUEST['oddaj'])){
-    if (oddaj(htmlspecialchars(trim($_REQUEST['oddaj'])))){
-        $_SESSION['pracownik_oddano'] = "";
-        header('Location: wypozycz_page.php');
-    }  
+//Funkcja drukujaca tresc strony wypozycz_page
+function printTresc(){
+    $tresc ="";
+    $tresc .= "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
+            . "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+            . "<link rel='stylesheet' href='CSS/style.css' type='text/css' />"
+            . "<script src='js/whcookies.js'></script><title>Biblioteka - Wypożycz</title>"
+            . "</head><body><div id='naglowek_div'><h1><span id='naglowek_tresc'>Wypożycz książki!</span></h1></div>";
+    switch ($_SESSION['typ_konta']){
+        case 2:
+            $tresc .= "<div id='menu2'><ol>";
+            $tresc .= "<li><a class='button_menu2' href='user_page.php'>Strona Główna</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='katalog_ksiazek.php'>Katalog książek</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a><ul><li>";
+            $tresc .= "<a class='button_menu2' href='moje_ksiazki.php'>Moje książki</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a></li></ul></li>";
+            $tresc .= "<li><a class='button_menu2' href='wypozycz_page.php'>Opcje pracownika</a><ul><li><a class='button_menu2' href='wypozycz_page.php'>Wypożycz/Oddaj</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='dodaj_ksiazke_page.php'>Dodaj książkę</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='rejestracja.php'>Dodaj użytkownika</a></li></ul></li>";
+            $tresc .= "<li><a class='button_menu2' href='wyloguj.php'>Wyloguj</a></li></ol>";
+            break;
+        case 3:
+            $tresc .= "<div id='menu3'><ol>";
+            $tresc .= "<li><a class='button_menu2' href='user_page.php'>Strona Główna</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='katalog_ksiazek.php'>Katalog książek</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a><ul><li>";
+            $tresc .= "<a class='button_menu2' href='moje_ksiazki.php'>Moje książki</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='moje_konto_page.php'>Moje konto</a></li></ul></li>";
+            $tresc .= "<li><a class='button_menu2' href='wypozycz_page.php'>Opcje pracownika</a><ul><li><a class='button_menu2' href='wypozycz_page.php'>Wypożycz/Oddaj</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='dodaj_ksiazke_page.php'>Dodaj książkę</a></li></ul></li>";
+            $tresc .= "<li><a class='button_menu2' href='statystyki_page.php'>Opcje Właściciela</a><ul><li><a class='button_menu2' href='rejestracja.php'>Dodaj użytkownika</a></li>";
+            $tresc .= "<li><a class='button_menu2' href='statystyki_page.php'>Statystyki</a></li></ul></li>";
+            $tresc .= "<li><a class='button_menu2' href='wyloguj.php'>Wyloguj</a></li></ol>";
+            break; 
+    }
+    $tresc .= "</div><div id='tresc_div'><span class='tresc_span' id='tresc_katalog'>";
+    if (isset($_SESSION['pracownik_wypozyczono'])){
+        $tresc .= 'Udało się wypożyczyć książkę!<br>';
+        unset($_SESSION['pracownik_wypozyczono']);
+    }
+                    
+     if (isset($_SESSION['pracownik_oddano'])){
+        $tresc .= 'Udało się oddać książkę!<br>';
+        unset($_SESSION['pracownik_oddano']);
+    }
+                    
+    if (isset($_SESSION['pracownik_anulowano'])){
+        $tresc .= 'Udało się anulować rezerwację książki!<br>';
+        unset($_SESSION['pracownik_anulowano']);
+    }
+    $tresc .= "Możesz tutaj przeglądać książki które czytelnicy zarezerwowali i wypożyczyli:"
+            . "</span><div id='formularz_div'><form><table class='do_wypozyczenia_table'><tr>"
+            . "<td colspan='5' class='ksiazki_td_naglowek'>Zarezerwowane książki:</td></tr><tr>"
+            . "<td class='ksiazki_td_naglowek'>Login</td><td class='ksiazki_td_naglowek'>Autor</td>"
+            . "<td class='ksiazki_td_naglowek'>Tytuł</td><td class='ksiazki_td_naglowek'>Data rezerwacji</td>"
+            . "<td class='ksiazki_td_naglowek'>Akcja</td></tr>".printZarezerwowane("TRUE")."</table><br><table class='do_wypozyczenia_table'>"
+            . "<tr><td colspan='5' class='ksiazki_td_naglowek'>Zarezerwowane książki których rezerwacja upłynęła:</td>"
+            . "</tr><tr><td class='ksiazki_td_naglowek'>Login</td><td class='ksiazki_td_naglowek'>Autor</td>"
+            . "<td class='ksiazki_td_naglowek'>Tytuł</td><td class='ksiazki_td_naglowek'>Data rezerwacji</td>"
+            . "<td class='ksiazki_td_naglowek'>Akcja</td></tr>".printZarezerwowane("FALSE")."</table><br><table class='wypozyczone_table_pracownik'>"
+            . "<tr><td colspan='5' class='ksiazki_td_naglowek'>Wypożyczone książki:</td></tr><tr><td class='ksiazki_td_naglowek'>Login</td>"
+            . "<td class='ksiazki_td_naglowek'>Autor</td><td class='ksiazki_td_naglowek'>Tytuł</td>"
+            . "<td class='ksiazki_td_naglowek'>Data rezerwacji</td><td class='ksiazki_td_naglowek'>Akcja</td></tr>".printWypozyczone();
+    if (isset($_SESSION['blad_select'])){
+        $tresc .= $_SESSION['blad_select'];
+        unset($_SESSION['blad_select']);
+    }
+    $tresc .= "</table></form></div></div><div id='stopka'> &copy; 2017 Marcin Małocha</div></body></html>";
+    echo $tresc;
 }
-
 
 //Funkcja obslugujaca oddanie ksiazki
 function oddaj($id_wypozyczenia){
@@ -186,7 +276,7 @@ function printZarezerwowane($option){
         $baza->disconnectDatabase($connect);
     }
      $baza->disconnectDatabase($connect);
-     echo $tresc;
+     return $tresc;
 }
 
 
@@ -235,5 +325,5 @@ function printWypozyczone(){
         $baza->disconnectDatabase($connect);
     }
      $baza->disconnectDatabase($connect);
-     echo $tresc;
+     return $tresc;
 }
